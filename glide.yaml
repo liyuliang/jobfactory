@@ -1,0 +1,15 @@
+package: jobfactory
+import:
+- package: github.com/astaxie/beego
+  version: ^1.11.1
+- package: github.com/liyuliang/models
+  subpackages:
+  - protobuf
+- package: github.com/liyuliang/utils
+  subpackages:
+  - format
+testImport:
+- package: github.com/smartystreets/goconvey
+  version: ^1.6.3
+  subpackages:
+  - convey
