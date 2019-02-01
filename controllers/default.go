@@ -12,8 +12,11 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
+
 	url := c.GetString("url")
 	queueName := c.GetString("queue")
+	level, _ := c.GetInt("level")
+	delay, _ := c.GetInt("delay")
 
 	if url == "" {
 		c.Abort("404")
@@ -32,7 +35,7 @@ func (c *MainController) Get() {
 		Model: &m,
 	})
 
-	worker.Pusher().New(models)
+	worker.Pusher().SetDelay(delay).SetLevel(level).New(models)
 
 	c.Ctx.WriteString("success")
 }

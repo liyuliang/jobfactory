@@ -3,11 +3,9 @@ package jobs
 import (
 	domParser "github.com/liyuliang/dom-parser"
 	"github.com/liyuliang/utils/format"
-	"github.com/liyuliang/models/protobuf"
-	"time"
 	"math"
-	"log"
-	"jobfactory/worker"
+	"fmt"
+	"jobfactory/conf"
 )
 
 func addChuixueJobs() {
@@ -51,6 +49,7 @@ func addChuixueJobs() {
 					println(err.Error())
 					continue
 				}
+
 				html = gbkToUtf8(html)
 				dom, err := domParser.InitDom(html)
 				if err != nil {
@@ -66,28 +65,12 @@ func addChuixueJobs() {
 				}
 
 				queueName := "parser_manhua_listing"
-				models := []*worker.Model{}
-
 				for _, url := range chapterUrls {
-					site := getSite(url)
-					if site == "" {
-						log.Printf("Can not know site: %s", url)
-						continue
-					}
 
-					m := protobuf.ParserManhuaListing{
-						Site: site,
-						Url:  url,
-					}
-					models = append(models, &worker.Model{
-						Name:  queueName,
-						Model: &m,
-					})
+					api := fmt.Sprintf("%s?queue=%s&url=%s", conf.Remote().Get("api.job"), queueName, format.UrlEncode(url))
+					HttpGet(api)
 				}
-
-				worker.Pusher().New(models)
 			}
 		}
-		time.Sleep(30 * time.Minute)
 	}
 }

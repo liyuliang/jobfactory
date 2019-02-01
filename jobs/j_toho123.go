@@ -2,8 +2,9 @@ package jobs
 
 import (
 	domParser "github.com/liyuliang/dom-parser"
-	"time"
 	"fmt"
+	"github.com/liyuliang/utils/format"
+	"jobfactory/conf"
 )
 
 func addTohoJobs() {
@@ -34,11 +35,17 @@ func addTohoJobs() {
 			for _, a := range dom.FindAll("ul.list li.am-thumbnail p.d-nowrap a") {
 				href, exist := a.Attr("href")
 				if exist {
-					bookUrls = append(bookUrls, "https://m.tohomh123.com" + href)
+					bookUrls = append(bookUrls, "https://m.tohomh123.com"+href)
 				}
+			}
+
+			queueName := "parser_manhua_listing"
+			for _, url := range bookUrls {
+
+				api := fmt.Sprintf("%s?queue=%s&url=%s", conf.Remote().Get("api.job"), queueName, format.UrlEncode(url))
+				HttpGet(api)
 			}
 		}
 
-		time.Sleep(30 * time.Minute)
 	}
 }

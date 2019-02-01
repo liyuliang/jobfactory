@@ -15,6 +15,8 @@ import (
 )
 
 type pusher struct {
+	level     int
+	delay     int
 	sync.RWMutex
 	dataGroup map[string][]string
 }
@@ -22,7 +24,7 @@ type pusher struct {
 func (p *pusher) addModels(queueName string, models []string) {
 	if len(models) != 0 {
 		vals := modelsToVals(models)
-		
+
 		addApi := conf.Remote().Get("api.queue") + queueName + conf.Remote().Get("api.queue.add")
 		_, err := HttpAuthPost(addApi, vals)
 
@@ -38,6 +40,15 @@ func (p *pusher) addModels(queueName string, models []string) {
 			log.Printf("New %s jobs by ids done .%d", queueName, len(models))
 		}
 	}
+}
+func (p *pusher) SetDelay(delay int) *pusher {
+	p.delay = delay
+	return p
+}
+
+func (p *pusher) SetLevel(level int) *pusher {
+	p.level = level
+	return p
 }
 
 func (p *pusher) New(jobs []*Model) {
@@ -64,15 +75,6 @@ func (p *pusher) New(jobs []*Model) {
 	}
 }
 
-
-func idsToVals(ids []string) (vals url.Values) {
-	vals = url.Values{}
-	for _, id := range ids {
-		vals.Add("ids", id)
-	}
-	return vals
-}
-
 func modelsToVals(models []string) (vals url.Values) {
 	vals = url.Values{}
 	for _, model := range models {
@@ -87,11 +89,10 @@ func Pusher() *pusher {
 	return p
 }
 
-
 func HttpAuthPost(uri string, v url.Values) (content string, err error) {
 
-	account := "liang"
-	password := "L!ang*#06#"
+	account := conf.Remote().Get("api.account")
+	password := conf.Remote().Get("api.password")
 
 	p := bytes.NewBufferString(v.Encode())
 
