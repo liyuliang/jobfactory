@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/liyuliang/models/protobuf"
 	"jobfactory/worker"
+	"github.com/liyuliang/utils/format"
 )
 
 type MainController struct {
@@ -18,6 +19,7 @@ func (c *MainController) Get() {
 		c.Abort("404")
 		return
 	}
+	url, _ = format.UrlDecode(url)
 
 	models := []*worker.Model{}
 
