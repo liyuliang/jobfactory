@@ -1,0 +1,20 @@
+syntax="proto3";
+package protobuf;
+
+message Saver_manhua_chapter {
+
+    uint64 Id = 1;
+    //@inject_tag: gorm:"index:site,site_num_cha"
+    string Site = 2;
+    //@inject_tag: gorm:"index:number,site_num_cha"
+    int32  Number = 3;
+    //@inject_tag: gorm:"index:chapter,site_num_cha"
+    string Chapter = 4;
+    string Title = 5;
+    string Url = 6;
+    //@inject_tag: gorm:"column:FinishedTime"
+    int64 FinishedTime = 7;
+    bool Available = 8;
+    //@inject_tag: gorm:"column:UpdateTime"
+    int64 UpdateTime = 9;
+}

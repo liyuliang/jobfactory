@@ -1,0 +1,13 @@
+syntax="proto3";
+package protobuf;
+
+message Index_manhua_chapter {
+
+    uint64 Id = 1;
+    string Site = 2;
+    int32 Number = 3;
+    string Chapter = 4;
+    string Title = 5;
+    int64 Update = 6;
+
+}

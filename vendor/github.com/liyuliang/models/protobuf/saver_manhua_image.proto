@@ -1,0 +1,16 @@
+syntax="proto3";
+package protobuf;
+
+message Saver_manhua_image {
+
+    uint64  Id = 1;
+    //@inject_tag: gorm:"index:site,site_num_cha_seq"
+    string Site = 2;
+    //@inject_tag: gorm:"index:number,site_num_cha_seq"
+    int32  Number = 3;
+    //@inject_tag: gorm:"index:chapter,site_num_cha_seq"
+    string Chapter = 4;
+    //@inject_tag: gorm:"index:sequence,site_num_cha_seq"
+    int32 Sequence = 5;
+    string Url = 6;
+}

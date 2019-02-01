@@ -1,0 +1,10 @@
+syntax="proto3";
+package protobuf;
+
+message Cacher_image {
+
+    uint64 Id = 1;
+    //@inject_tag: gorm:"index:code,code"
+    string Code = 2;
+    string Url = 3;
+}

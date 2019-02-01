@@ -1,0 +1,21 @@
+syntax="proto3";
+package protobuf;
+
+
+message Saver_manhua_book {
+
+    uint64 Id = 1;
+    //@inject_tag: gorm:"index:site,site_num"
+    string Site = 2;
+    string Name = 3;
+    string Url = 4;
+    //@inject_tag: gorm:"index:number,site_num"
+    int32  Number = 5;
+    string Categories = 6;
+    string Description = 7;
+    string Face = 8;
+    //@inject_tag: gorm:"column:UpdateTime"
+    int64 UpdateTime = 9;
+    //@inject_tag: gorm:"column:CheckTime"
+    int64 CheckTime = 10;
+}

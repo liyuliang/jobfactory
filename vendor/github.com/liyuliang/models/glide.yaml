@@ -1,0 +1,9 @@
+package: queue-models
+import:
+- package: github.com/liyuliang/utils
+- package: github.com/golang/protobuf
+  version: ^1.1.0
+  subpackages:
+  - protoc-gen-go
+  - proto
+- package: github.com/favadi/protoc-go-inject-tag

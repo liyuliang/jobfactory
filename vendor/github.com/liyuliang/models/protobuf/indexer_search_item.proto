@@ -1,0 +1,10 @@
+syntax="proto3";
+package protobuf;
+
+message Index_search_item {
+
+    uint64 Id = 1;
+    string Title = 2;
+    string Category = 3;
+    string Code = 4;
+}

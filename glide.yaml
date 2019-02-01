@@ -2,12 +2,21 @@ package: jobfactory
 import:
 - package: github.com/astaxie/beego
   version: ^1.11.1
+- package: github.com/golang/text
+  version: ^0.3.0
+  subpackages:
+  - encoding/simplifiedchinese
+  - transform
+- package: github.com/imroc/req
+  version: ^0.2.3
+- package: github.com/liyuliang/dom-parser
 - package: github.com/liyuliang/models
   subpackages:
   - protobuf
 - package: github.com/liyuliang/utils
   subpackages:
   - format
+  - regex
 testImport:
 - package: github.com/smartystreets/goconvey
   version: ^1.6.3
