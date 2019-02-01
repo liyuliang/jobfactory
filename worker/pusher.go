@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"errors"
 	"io/ioutil"
+	"github.com/liyuliang/utils/format"
 )
 
 type pusher struct {
@@ -26,6 +27,14 @@ func (p *pusher) addModels(queueName string, models []string) {
 		vals := modelsToVals(models)
 
 		addApi := conf.Remote().Get("api.queue") + queueName + conf.Remote().Get("api.queue.add")
+		if p.delay != 0 {
+			addApi = addApi + "&delay=" + format.IntToStr(p.delay)
+		}
+
+		if p.level != 0 {
+			addApi = addApi + "&level=" + format.IntToStr(p.level)
+		}
+
 		_, err := HttpAuthPost(addApi, vals)
 
 		if err != nil {
