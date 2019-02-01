@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/liyuliang/models/protobuf"
+	"jobfactory/worker"
 )
 
 type MainController struct {
@@ -9,7 +11,26 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "index.tpl"
+	url := c.GetString("url")
+	queueName := c.GetString("queue")
+
+	if url == "" {
+		c.Abort("404")
+		return
+	}
+
+	models := []*worker.Model{}
+
+	m := protobuf.ParserManhuaPage{
+		Url: url,
+	}
+
+	models = append(models, &worker.Model{
+		Name:  queueName,
+		Model: &m,
+	})
+
+	worker.Pusher().New(models)
+
+	c.Ctx.WriteString("success")
 }
