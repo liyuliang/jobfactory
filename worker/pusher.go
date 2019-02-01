@@ -1,7 +1,6 @@
 package worker
 
 import (
-	"github.com/liyuliang/models/protobuf"
 	"github.com/liyuliang/utils/format"
 	"github.com/liyuliang/models/protobuf"
 	"encoding/base64"
@@ -9,12 +8,7 @@ import (
 	"log"
 	"sync"
 )
-
-type Model struct {
-	Id    uint64         `json:"Id,omitempty"`
-	Name  string         `json:"Name"`
-	Model protobuf.Model `json:"Model"`
-}
+	
 
 
 type pusher struct {
