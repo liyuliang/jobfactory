@@ -45,7 +45,7 @@ func (c remoteConfig) Load(authCode string) {
 	_remoteConf.Lock()
 	for _, key := range keys {
 		val, _ := httpGet(baseApi + "/get/" + key + "?auth=" + authCode)
-		//beego.Debug("Load Remote Config: ", key, ":", val)
+		beego.Debug("Load Remote Config: ", key)
 		_remoteConf.data[key] = val
 
 	}

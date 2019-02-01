@@ -1,15 +1,18 @@
 package worker
 
 import (
-	"github.com/liyuliang/utils/format"
 	"github.com/liyuliang/models/protobuf"
 	"encoding/base64"
 	"net/url"
 	"log"
 	"sync"
+	"jobfactory/conf"
+	"time"
+	"bytes"
+	"net/http"
+	"errors"
+	"io/ioutil"
 )
-	
-
 
 type pusher struct {
 	sync.RWMutex
@@ -82,4 +85,34 @@ func Pusher() *pusher {
 
 	p := new(pusher)
 	return p
+}
+
+
+func HttpAuthPost(uri string, v url.Values) (content string, err error) {
+
+	account := "liang"
+	password := "L!ang*#06#"
+
+	p := bytes.NewBufferString(v.Encode())
+
+	requeset, err := http.NewRequest("POST", uri, p)
+	requeset.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	requeset.SetBasicAuth(account, password)
+
+	client := &http.Client{
+		Timeout: time.Duration(60 * time.Second),
+	}
+	resp, err := client.Do(requeset)
+	if err != nil {
+		log.Println(err.Error())
+		return "", err
+	} else {
+		defer resp.Body.Close()
+		if resp.StatusCode != 200 {
+			return "", errors.New("Http response code is not 200. ")
+		} else {
+			bodyText, err := ioutil.ReadAll(resp.Body)
+			return string(bodyText), err
+		}
+	}
 }
