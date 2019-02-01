@@ -67,8 +67,13 @@ func addChuixueJobs() {
 				queueName := "parser_manhua_listing"
 				for _, url := range chapterUrls {
 
-					api := fmt.Sprintf("%s?queue=%s&url=%s", conf.Remote().Get("api.job"), queueName, format.UrlEncode(url))
-					HttpGet(api)
+					api := fmt.Sprintf("%s?queue=%s&url=%s&delay=%d", conf.Remote().Get("api.job"), queueName, format.UrlEncode(url), randomSecond())
+					html, err := HttpGet(api)
+					if err != nil {
+						println(err.Error())
+					} else {
+						println(html)
+					}
 				}
 			}
 		}

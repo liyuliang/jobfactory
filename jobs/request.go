@@ -13,6 +13,7 @@ import (
 	"strings"
 	"github.com/golang/text/transform"
 	"github.com/golang/text/encoding/simplifiedchinese"
+	"math/rand"
 )
 
 func gbkToUtf8(text string) string {
@@ -103,4 +104,14 @@ func HttpAuthPost(uri string, v url.Values) (content string, err error) {
 			return string(bodyText), err
 		}
 	}
+}
+
+
+func randomSecond() int {
+	rand.Seed(time.Now().Unix())
+	x := rand.Intn(10) * 1800
+	if x < 0 {
+		x = 1800
+	}
+	return x
 }
