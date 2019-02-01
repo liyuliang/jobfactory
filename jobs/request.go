@@ -10,9 +10,9 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/url"
-	"text/transform"
-	"text/encoding/simplifiedchinese"
 	"strings"
+	"github.com/golang/text/transform"
+	"github.com/golang/text/encoding/simplifiedchinese"
 )
 
 func gbkToUtf8(text string) string {

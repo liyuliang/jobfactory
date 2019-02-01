@@ -7,8 +7,7 @@ import (
 	"time"
 	"math"
 	"log"
-	"task-center/queue"
-	"task-center/worker"
+	"jobfactory/worker"
 )
 
 func addChuixueJobs() {
@@ -67,7 +66,7 @@ func addChuixueJobs() {
 				}
 
 				queueName := "parser_manhua_listing"
-				models := []*queue.Model{}
+				models := []*worker.Model{}
 
 				for _, url := range chapterUrls {
 					site := getSite(url)
@@ -76,11 +75,11 @@ func addChuixueJobs() {
 						continue
 					}
 
-					m := protobuf.ParserManhuaPage{
+					m := protobuf.ParserManhuaListing{
 						Site: site,
 						Url:  url,
 					}
-					models = append(models, &queue.Model{
+					models = append(models, &worker.Model{
 						Name:  queueName,
 						Model: &m,
 					})
